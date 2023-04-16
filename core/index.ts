@@ -1,1 +1,1 @@
-export { default } from './MyButton.vue'
+export { default } from './electron-webview.vue'

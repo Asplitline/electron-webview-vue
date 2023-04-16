@@ -14,9 +14,7 @@ import { join } from 'node:path'
 //
 process.env.DIST_ELECTRON = join(__dirname, '..')
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
-process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
-  ? join(process.env.DIST_ELECTRON, '../public')
-  : process.env.DIST
+process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL ? join(process.env.DIST_ELECTRON, '../public') : process.env.DIST
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
@@ -51,10 +49,12 @@ async function createWindow() {
       // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
       nodeIntegration: true,
       contextIsolation: false,
-    },
+      webviewTag: true
+    }
   })
 
-  if (process.env.VITE_DEV_SERVER_URL) { // electron-vite-vue#298
+  if (process.env.VITE_DEV_SERVER_URL) {
+    // electron-vite-vue#298
     win.loadURL(url)
     // Open devTool if the app is not packaged
     win.webContents.openDevTools()
@@ -105,8 +105,8 @@ ipcMain.handle('open-win', (_, arg) => {
     webPreferences: {
       preload,
       nodeIntegration: true,
-      contextIsolation: false,
-    },
+      contextIsolation: false
+    }
   })
 
   if (process.env.VITE_DEV_SERVER_URL) {
